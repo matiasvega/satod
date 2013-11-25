@@ -27,21 +27,33 @@ $cakeDescription = __d('cake_dev', ' V/N Sistema de apoyo a la toma de decisione
 		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
-        <script src="https://www.google.com/jsapi"></script>
+
 	<?php
 		echo $this->Html->meta('icon');
 
+                echo $this->Html->css('chosen.css');
+                echo $this->Html->css('jquery.fileupload.css');                        
+                echo $this->Html->css('jquery.fileupload-ui.css');                
 		echo $this->Html->css('cake.generic');
                 //echo $this->Html->css('jqtree.css'); // Include jquery tree css                
                 echo $this->Html->css('ui.dynatree.css');
                 //echo $this->Html->css('jquery.ui.accordion.css');
-                echo $this->Html->css('jquery-ui.css');
+//                echo $this->Html->css('jquery-ui.css');
+                echo $this->Html->css('jquery-ui-1.10.3.custom.css');                
+                echo $this->Html->css('bootstrap.min.css');
+//                echo $this->Html->css('jquery.dataTables_themeroller.css');                
+                echo $this->Html->css('demo_page.css');
+                echo $this->Html->css('demo_table.css');
+                echo $this->Html->css('jquery.pnotify.default.css');
+                echo $this->Html->css('jquery.pnotify.default.icons.css');
+                        
                 
-                
-                                              
+                                                              
                 echo $this->Html->script('jquery-2.0.3.min.js'); // Include jQuery library
                 echo $this->Html->script('jquery-ui.custom.min.js'); // Include jQuery library
-                echo $this->Html->script('jquery.cookie.js'); // Include jQuery library                                                                                
+                echo $this->Html->script('jquery.cookie.js'); // Include jQuery library                                
+                //echo $this->Html->script('tree.jquery.js'); // Include jQuery Tree                                               
+                                
                 echo $this->Html->script('jquery-1.9.1.js');                                
                 echo $this->Html->script('jquery.ui.core.js');
                 echo $this->Html->script('jquery.ui.widget.js');
@@ -53,24 +65,48 @@ $cakeDescription = __d('cake_dev', ' V/N Sistema de apoyo a la toma de decisione
                 echo $this->Html->script('jquery.ui.resizable.js');
                 echo $this->Html->script('jquery.ui.button.js');
                 echo $this->Html->script('jquery.ui.dialog.js');
-                
+                echo $this->Html->script('jquery.ui.datepicker.js');
                 echo $this->Html->script('jquery.ui.effect.js');
-                                
+                
+                echo $this->Html->script('jquery.ui.effect-blind.js');
+                echo $this->Html->script('jquery.ui.effect-explode.js');
+                echo $this->Html->script('jquery.ui.effect-clip.js');
+                echo $this->Html->script('jquery.ui.effect-slide.js');
+                                                                                
                 echo $this->Html->script('jquery.dynatree.js'); // Include jQuery Tree
+                echo $this->Html->script('jquery.pnotify.js');
                                              
                 echo $this->Html->script('satod.js'); // Include jQuery Tree
-                                                                
+                
+                echo $this->Html->script('chosen.jquery.js');
+                echo $this->Html->script('jquery.iframe-transport.js');
+                echo $this->Html->script('jquery.fileupload.js');
+                echo $this->Html->script('jquery.dataTables.js');
+                echo $this->Html->script('jquery.ui.spinner.js');
+                echo $this->Html->script('jquery.jqdock.js');
+                echo $this->Html->script('jquery.h5validate.js');
+//                echo $this->Html->script('bootstrap.min.js');
+                
+                                
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		echo $this->fetch('script');                                               
+		echo $this->fetch('script');                                            
                 
 	?>
     
 </head>
 <body>
-	<div id="container">
+	<div id="containerLogin">
 		<div id="header">
-			<h1><?php echo $cakeDescription; ?></h1>
+                        <div id="himage">
+                            <?php // echo $this->Html->image('logo-vn-trans.png', array('alt' => 'V/N')); ?>
+                            <h1>
+                                <span id="description">
+                                    <?php echo $cakeDescription; ?>
+                                </span>
+                            </h1>
+                        </div>                                                                                    
+                         
 		</div>
 		<div id="content">
 

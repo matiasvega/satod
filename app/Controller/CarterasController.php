@@ -394,5 +394,15 @@ class CarterasController extends AppController {
         }
         return $this->redirect(array('action' => 'index'));
     }
+    
+    public function addPlanificacion() {
+        return $this->redirect('/planificaciones/add');
+    }
+    
+    public function indexPlanificaciones() {
+        return $this->redirect('/planificaciones/');
+    }
+    
+    
 
 }

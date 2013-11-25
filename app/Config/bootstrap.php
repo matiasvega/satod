@@ -71,9 +71,15 @@ CakePlugin::loadAll(); // Loads all plugins at once
 
  *
  */
-CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
+
+//CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
 CakePlugin::load('GChart');
 CakePlugin::load('CakePdf', array('bootstrap' => true, 'routes' => true));
+CakePlugin::load('AclExtras');
+
+CakePlugin::load('Acl', array('bootstrap' => true));
+
+
 //CakePlugin::load('AjaxMultiUpload', array('bootstrap' => true));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -170,3 +176,4 @@ function getMes($mes) {
 function nro($nro) {
     return number_format($nro, 2, ',', '.');
 }
+

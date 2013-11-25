@@ -1,14 +1,39 @@
+<script>
+    $(document).ready(function() {
+        $('form').h5Validate();
+    });
+</script>
 <div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
 		<legend><?php echo __('Registrar Usuario'); ?></legend>
 	<?php
-		echo $this->Form->input('username');
-		echo $this->Form->input('password');
-		echo $this->Form->input('role');
+		echo $this->Form->input('username', array(
+                                                    'label' => 'Usuario',
+                                                    'required' => true,
+                                                    'placeholder' => 'Ingresa el nombre de usuario',
+                                                    'title' => 'Ingresa el nombre de usuario',
+                                                    )
+                                        );
+		echo $this->Form->input('password', array(
+                                                    'label' => 'Contraseña',
+                                                    'required' => true,
+                                                    'placeholder' => 'Ingresa la contraseña de usuario',
+                                                    'title' => 'Ingresa la contraseña de usuario',
+                                                    )
+                                        );
+		echo $this->Form->input('group_id', array(
+                                                        'required' => true,
+                                                        'label' => 'Grupo',
+                                                        'options' => $grupos,
+                                                        'required' => true,
+                                                        'title' => 'Selecciona el grupo al que pertenece el usuario',
+                                                        'div' => 'required',
+                                                        )
+                                        );
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->end(__('Guardar')); ?>
 </div>
 <!--
 <div class="actions">

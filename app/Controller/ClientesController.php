@@ -23,8 +23,7 @@ class ClientesController extends AppController {
 	public function index() {
 		$this->Cliente->recursive = 0;
 		$this->set('clientes', $this->Paginator->paginate());
-
-                $this->set('estados', array('P' => 'Potencial', 'E' => 'Efectivo'));
+                $this->set('estados', array('P' => 'Potencial', 'E' => 'Efectivo'));                                
 	}
 
 /**

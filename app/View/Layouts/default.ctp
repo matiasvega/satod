@@ -93,6 +93,7 @@ $cakeDescription = __d('cake_dev', 'Sistema de apoyo a la toma de decisiones');
 		echo $this->fetch('script');                                               
                 
 	?>
+
    
 </head>
 <body>    
@@ -100,28 +101,39 @@ $cakeDescription = __d('cake_dev', 'Sistema de apoyo a la toma de decisiones');
 		<div id="header">
                         <div id="himage">
                             <?php // echo $this->Html->image('logo-vn-trans.png', array('alt' => 'V/N')); ?>
+                            <div id="user" >
+                                <?php
+                                    echo sprintf('+ [%s@%s]', 
+                                            $this->Session->read('Auth.User.username'),
+                                            $this->Session->read('Auth.User.Group.name')
+                                                );
+                                ?>
+                            </div>
                             <h1>
                                 <span id="description">
                                     <?php echo $cakeDescription; ?>
-                                </span>
-
-                                <div id="toolbar">
-                                    <div id="page">
+                                </span>                                
+                                <div id="toolbar">                                    
+                                    <div id="page">                                        
                                         <div id="menu">
                                         <?php 
                                         echo $this->Html->image('user.png', array(
-                                                                                         'alt' => '',
-                                                                                         'title' => 'Opciones de usuario',
-                                                                                       ));
+                                                                                'alt' => 'Opciones de usuario',
+                                                                                'title' => 'Opciones de usuario',
+                                                                                'url' => sprintf('/users/options/%s',
+                                                                                        $this->Session->read('Auth.User.id')),
+                                                                                  ));
                                         
                                         echo $this->Html->image('help.png', array(
-                                                                                         'alt' => '',
-                                                                                         'title' => 'Ayuda',
-                                                                                       ));                                        
+                                                                                'alt' => 'Ayuda',
+                                                                                'title' => 'Ayuda',
+                                                                                'url' => 'https://github.com/matiasvega/satod/wiki',
+                                                                                array('target' => '_blank')
+                                                                              ));                                        
                                                                                        
     
                                         echo $this->Html->image('logout.png', array(
-                                                                                         'alt' => '',
+                                                                                         'alt' => 'Salir',
                                                                                          'title' => 'Salir',
                                                                                          'url' => '/users/logout',
                                                                                          ));
@@ -131,6 +143,7 @@ $cakeDescription = __d('cake_dev', 'Sistema de apoyo a la toma de decisiones');
                                     </div>                                
                                 </div>      
                             </h1>
+
                         </div>                                                                                    
                          
 		</div>

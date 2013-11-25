@@ -129,7 +129,7 @@ p {
         float: left;        
         width: 90%;
         text-align: left;
-        margin-top: 55px;
+        margin-top: 34px;
         margin-left:151px;
 }
 #header h1 a {
@@ -182,6 +182,13 @@ p {
 
 div.jqDockLabel {font-weight:bold; font-style:italic; white-space:nowrap; color:#555555; cursor:pointer; padding:0 1px;}
 
+#user {
+    1background-color: orange;
+    text-align: right;
+    margin-right:60px;
+    margin-top: 1px;
+    font-weight: bold;
+}
 
 #header h1 #toolbar img {
     1padding: 3px;
@@ -955,7 +962,7 @@ pre {
     padding-top: 15px;
 }
 
-div.jqDockLabel {font-weight:bold; font-style:italic; white-space:nowrap; color: #ef8c08; cursor:pointer; padding:100px 10px;}
+div.jqDockLabel {font-weight:bold; font-style:italic; white-space:nowrap; color: #c95425; cursor:pointer; padding:85px 10px;font-size: 55%;}
 
 
 
@@ -1205,4 +1212,19 @@ div.jqDockLabel {font-weight:bold; font-style:italic; white-space:nowrap; color:
     float: left;
     margin-left:20px;
     margin-top:8px;
+}
+
+#containerLogin {
+    width: 60%;
+    margin:auto;
+    padding:0;
+    1background-color: green;
+}
+
+#containerLogin #header {
+    width: 93%;
+}
+
+#containerLogin #header #description {
+    font-size: 50%;    
 }
