@@ -34,6 +34,9 @@
 	position: relative;
 	clear: both;
 	zoom: 1; /* Feeling sorry for IE */
+        1background-color: red;
+        1border:0;
+        width: 100%;
 }
 
 .dataTables_processing {
@@ -57,10 +60,27 @@
 	float: left;
 }
 
+.dataTables_length label {
+    font-size: 14px;
+}
+
+.dataTables_length input {
+    height: 25px;
+}
+
 .dataTables_filter {
 	width: 50%;
 	float: right;
 	text-align: right;
+}
+
+.dataTables_filter label {
+    font-size: 14px;
+}
+
+.dataTables_filter input {
+    width: 390px;
+    height: 25px;
 }
 
 .dataTables_info {
@@ -72,6 +92,12 @@
 	float: right;
 	text-align: right;
 }
+
+.dataTables_paginate a span {
+    margin:3px;
+}
+
+
 
 /* Pagination nested */
 .paginate_disabled_previous, .paginate_enabled_previous,
@@ -182,15 +208,48 @@ table.display td.center {
  */
 
 .sorting_asc {
-	background: url('../img/sort_asc.png') no-repeat center right;
+	1background: url('../img/sort_asc.png') #855228 no-repeat center right;
+        1color: #FFFFFF;
+        1font-weight: bold;
+        
+        border: 1px solid #cccccc;
+        background: #f6f6f6 url(../img/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #5b381e;
+        background-image: url(../img/ui-icons_ef8c08_256x240.png);
+        background-position: 0 -16px; 
 }
 
 .sorting_desc {
-	background: url('../img/sort_desc.png') no-repeat center right;
+	1background: url('../img/sort_desc.png') #855228 no-repeat center right;
+        1color: #FFFFFF;
+        1font-weight: bold;
+        
+        
+        border: 1px solid #cccccc;
+        background: #f6f6f6 url(../img/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #5b381e;
+        
 }
 
 .sorting {
-	background: url('../img/sort_both.png') no-repeat center right;
+	1background: url('../img/sort_both.png') #855228 no-repeat center right;
+        1color: #FFFFFF;
+        1font-weight: bold;
+        
+        border: 1px solid #cccccc;
+        1background: #f6f6f6 url(../img/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #5b381e;
+        
+        1display: block;
+	1text-indent: -99999px;
+	1overflow: hidden;
+	1background-repeat: no-repeat;
+        
+        1background-position: -128px 0;
+        
 }
 
 .sorting_asc_disabled {

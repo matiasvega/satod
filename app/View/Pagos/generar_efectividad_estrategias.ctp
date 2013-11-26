@@ -14,6 +14,9 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
                                 animation: 'show',
                                 title: \" ERROR \",
                                 type: \"error\",
+                                history: false,
+                                sticker: false,
+                                delay: 2000,
                             };
 
                 if ($('#comboClientes').val() == '') {

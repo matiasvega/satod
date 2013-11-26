@@ -12,6 +12,9 @@ echo sprintf("<script type=\"text/javascript\">
                 cornerclass: \"\",
                 width: \"30%%\",
                 styling: 'jqueryui',
+                history: false,
+                sticker: false,
+                delay: 2000,
                 animation: 'show'
     //            stack: show_stack_bar_bottom,
             };

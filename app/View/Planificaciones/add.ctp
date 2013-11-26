@@ -339,6 +339,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
     echo $this->Form->button('Ver analisis de cartera', array(
                                                             'id' => 'ver_analisis_cartera', 
                                                             'type' => 'button',
+                                                            'class' => 'boton',
                                                         )
                             );
 

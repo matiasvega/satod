@@ -4,16 +4,19 @@ echo "
         $(document).ready(function() {
 
             $('.tablaInforme').dataTable({
+                'bJQueryUI': true,
                 'bPaginate': true,
                 'bLengthChange': false,
                 'bFilter': false,
                 'bSort': true,
-                'bInfo': false,
+//                'bInfo': false,
                 'bAutoWidth': false,
+//                'sPaginationType': 'full_numbers',
                 'oLanguage': {
                                 'sUrl': '../de_ES.txt'
                              }
-            });           
+            }
+            );         
 
         });
     </script>

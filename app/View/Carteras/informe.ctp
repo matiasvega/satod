@@ -5,12 +5,14 @@ echo "
         $(document).ready(function() {
 
             $('.tablaInforme').dataTable({
+                'bJQueryUI': true,
                 'bPaginate': true,
-                'bLengthChange': false,
-                'bFilter': false,
+                'bLengthChange': true,
+                'bFilter': true,
                 'bSort': true,
-                'bInfo': false,
+//                'bInfo': true,
                 'bAutoWidth': false,
+//                'sPaginationType': 'full_numbers',
                 'oLanguage': {
                                 'sUrl': '../de_ES.txt'
                              }
@@ -81,15 +83,15 @@ if (isset($datos)) {
                     foreach ($indicador['IndicadoresValore'] as $valores) {
                         $tablaHtmlIndicadoresParticularesGrupo[] = $this->Html->tableCells(array(array(
                                 $valores['valor'],
-                                number_format($valores['valor_ponderado'], 2, ',', '.'),
-                                sprintf('%s %%', number_format((($valores['valor_ponderado'] / $totalDeuda) * 100), 2, ',', '.')),
-                                number_format((($valores['valor_ponderado'] * $datos['Cartera']['comision']) / 100), 2, ',', '.'),
+                                round($valores['valor_ponderado'], 2),
+                                sprintf('%s', round((($valores['valor_ponderado'] / $totalDeuda) * 100), 2)),
+                                round((($valores['valor_ponderado'] * $datos['Cartera']['comision']) / 100), 2),
                         )));
                         $incidencia[] = (($valores['valor_ponderado'] / $totalDeuda) * 100);
                         $comision[] = (($valores['valor_ponderado'] * $datos['Cartera']['comision']) / 100);
                         $graficaIndicadorParticular['items'][] = array(
                                                                         sprintf("'%s'", $valores['valor']), 
-                                                                        $valores['valor_ponderado']
+                                                                        round($valores['valor_ponderado'], 2)
                                                                         );
                     }
                     $tablaHtmlIndicadoresParticularesGrupo[] = $this->Html->tag('tfoot', $this->Html->tableCells(array(array(

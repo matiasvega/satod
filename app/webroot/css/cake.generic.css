@@ -474,17 +474,28 @@ input[type=submit] {
 	width: auto;
 }
 form .submit input[type=submit] {
-	background:#62af56;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#76BF6B), to(#3B8230));
-	background-image: -webkit-linear-gradient(top, #76BF6B, #3B8230);
-	background-image: -moz-linear-gradient(top, #76BF6B, #3B8230);
-	border-color: #2d6324;
-	color: #fff;
-	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
-	padding: 8px 10px;
+        border: 1px solid #cccccc;
+        background: #f6f6f6 url(../img/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #5b381e
+                
+	1background:#ef8c08;
+	1background-image: -webkit-gradient(linear, left top, left bottom, from(#ef8c08), to(#f4900f));
+	1background-image: -webkit-linear-gradient(top, #ef8c08, #f4900f);
+	1background-image: -moz-linear-gradient(top, #ef8c08, #f4900f);
+	1border-color: #2d6324;
+	1color: #fff;
+        1font-weight: bold;
+	1text-shadow: rgba(0, 0, 0, 0.1) 0px -1px 0px;
+	1padding: 8px 10px;
 }
 form .submit input[type=submit]:hover {
-	background: #5BA150;
+        border: 1px solid #fbcb09;
+        background: #fdf5ce url(../img/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #c77405;
+    
+	1background: #ef8c08;                                
 }
 /* Form errors */
 form .error {
@@ -895,7 +906,11 @@ pre {
 }
 
 .fieldsetInforme legend {
-    color:green;
+    1background-color: #855228;
+    color: #855228;
+    font-weight: bold;
+    padding-left: 4px;
+    1font-size: 120%;
 }
 
 .fieldsetInforme h1 {
@@ -915,7 +930,7 @@ pre {
     color:red;
     font-weight: bold;
     font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
-    font-size: 130%;    
+    font-size: 100%;
 }
 
 .fieldsetInforme .contenedorIndicadores {
@@ -925,10 +940,10 @@ pre {
 }
 
 .fieldsetInforme .contenedorIndicadores table {
-    width: 80%;
-    margin-left:75px;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    1width: 80%;
+    1margin-left:75px;
+    1margin-top: 50px;
+    1margin-bottom: 30px;
     font-size: 70%;
     
 }
@@ -1227,4 +1242,30 @@ div.jqDockLabel {font-weight:bold; font-style:italic; white-space:nowrap; color:
 
 #containerLogin #header #description {
     font-size: 50%;    
+}
+
+
+.boton {
+        border: 1px solid #cccccc;
+        background: #f6f6f6 url(../img/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #5b381e
+                
+	1background:#ef8c08;
+	1background-image: -webkit-gradient(linear, left top, left bottom, from(#ef8c08), to(#f4900f));
+	1background-image: -webkit-linear-gradient(top, #ef8c08, #f4900f);
+	1background-image: -moz-linear-gradient(top, #ef8c08, #f4900f);
+	1border-color: #2d6324;
+	1color: #fff;
+        1font-weight: bold;
+	1text-shadow: rgba(0, 0, 0, 0.1) 0px -1px 0px;
+	padding: 8px 10px;
+}
+.boton:hover {
+        border: 1px solid #fbcb09;
+        background: #fdf5ce url(../img/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+        font-weight: bold;
+        color: #c77405;
+    
+	1background: #ef8c08;                                
 }

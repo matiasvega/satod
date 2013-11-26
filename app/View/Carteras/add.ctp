@@ -68,6 +68,9 @@ $this->Js->get('#CarteraAddForm')->event(
                             animation: 'show',
                             title: \" ERROR \",
                             type: \"error\",
+                            history: false,
+                            sticker: false,
+                            delay: 2000,
                         };
                         
             // Verifico que se hayan seleccionado los valores para definir los indicadores particulares de recupero.
@@ -191,6 +194,7 @@ $this->Js->get('#CarteraAddForm')->event(
                                                                     'id' => 'fileupload',
                                                                     'label' => false,
                                                                     'div' => false,
+                                                                    'class' => 'boton',
                                                                 )
                                                             )
                             ),

@@ -12,7 +12,10 @@ $this->Js->get('#CarteraAnalizarForm')->event(
                                                     styling: 'jqueryui',
                                                     animation: 'show',
                                                     title: \" ERROR \",
-                                                    type: \"error\",
+                                                    type: \"error\",    
+                                                    history: false,
+                                                    sticker: false,
+                                                    delay: 2000,
                                                 };
                                     
                                     if ($('#comboClientes').val() == '') {

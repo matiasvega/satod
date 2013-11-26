@@ -244,7 +244,7 @@ class CarterasController extends AppController {
         
 
         if ($idCarteraPDF) {
-            $datos = $this->Cartera->find('first', array('conditions' => array('Cartera.id' => $idCarteraPDF,
+            $datos = $this->Cartera->find('all', array('conditions' => array('Cartera.id' => $idCarteraPDF,
                 ),
                 'recursive' => 2)
             );
@@ -255,7 +255,7 @@ class CarterasController extends AppController {
             $this->pdfConfig = array(
                 'orientation' => 'portrait',
                 'download' => true,
-                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos['Cartera']['nombre']), str_replace(' ', '_', $datos['Cliente']['nombre'])
+                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
                 ),
             );
 
