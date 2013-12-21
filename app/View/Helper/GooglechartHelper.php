@@ -13,10 +13,10 @@ class GooglechartHelper extends AppHelper {
                                         'curveType' => 'none',
                                         'pointSize' => '7',
                                         'hAxis' => array(
-                                            'title' => "ETIQUETA EJE X",
+                                            'title' => "",
                                         ),
                                         'vAxis' => array(
-                                            'title' => "ETIQUETA EJE Y",
+                                            'title' => "",
                                         ),
                                         'legend' => array('position' => 'bottom'),
                                         'height' => '400',
@@ -31,14 +31,15 @@ class GooglechartHelper extends AppHelper {
                         'title' => "TITULO",
                         'backgroundColor' => 'transparent',
                         'hAxis' => array(
-                            'title' => "ETIQUETA EJE X",
+                            'title' => "",
                         ),
                         'vAxis' => array(
-                            'title' => "ETIQUETA EJE Y",
+                            'title' => "",
                         ),
                         'legend' => array('position' => 'right'),
                         'series' => array('color' => 'red'),
                         'height' => '400',
+                        'width' => '1100',
                     ),
                 ),
                 'BarChart' => array(
@@ -47,11 +48,11 @@ class GooglechartHelper extends AppHelper {
                         'title' => "TITULO",
                         'backgroundColor' => 'transparent',
                         'hAxis' => array(
-                            'title' => "ETIQUETA EJE X",
+                            'title' => "",
                             'gridlines' => array('count' => -1),
                         ),
                         'vAxis' => array(
-                            'title' => "ETIQUETA EJE Y",
+                            'title' => "",
                         ),
                         'legend' => array('position' => 'right'),
                         'series' => array('color' => 'red'),
@@ -63,16 +64,16 @@ class GooglechartHelper extends AppHelper {
                     'options' => array(
                         'selectionMode' => 'multiple',
                         'backgroundColor' => 'transparent',
-                        'title' => "TITULO",
+                        'title' => "",
                         'hAxis' => array(
-                            'title' => "ETIQUETA EJE X",
+                            'title' => "",
                             'format' => '#',
                             'gridlines' => array(
                                                     'count' => '12',
                                                 ),
                         ),
                         'vAxis' => array(
-                            'title' => "ETIQUETA EJE Y",
+                            'title' => "",
                         ),
                         'legend' => array('position' => 'none'),
                         'height' => '400',
@@ -97,7 +98,7 @@ class GooglechartHelper extends AppHelper {
                 'PieChart' => array(
                     'packages' => 'corechart',
                     'options' => array(
-                        'title' => "TITULO",
+                        'title' => "",
                         'backgroundColor' => 'transparent',
                         'is3D' => true,
                     ),
@@ -106,10 +107,10 @@ class GooglechartHelper extends AppHelper {
                     'packages' => 'corechart',
                     'options' => array(
                         'hAxis' => array(
-                                            'title' => "ETIQUETA EJE X",
+                                            'title' => "",
                                         ),
                         'vAxis' => array(
-                                            'title' => "ETIQUETA EJE Y",
+                                            'title' => "",
                                         ),
                         'legend' => array('position' => 'none'),
                         'backgroundColor' => 'transparent',
@@ -124,6 +125,13 @@ class GooglechartHelper extends AppHelper {
                         'width' => '1100',
                     ),
                 ),        
+                'TreeMap' => array(
+                    'packages' => 'treemap',
+                    'options' => array(
+                        'height' => '300',
+                        'width' => '1100',
+                    ),
+                ),
                 
     );
         

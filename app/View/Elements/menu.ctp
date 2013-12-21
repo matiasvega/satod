@@ -54,7 +54,7 @@ $options['Pagos']['opciones'] = array(
                                 'generarInformeDePagos' => $this->Html->link('Comportamiento de pagos', '/pagos/generarInformeDePagos'),
                                 'generarInformeDeRecupero' => $this->Html->link('Indice de recupero', '/pagos/generarInformeDeRecupero'),
                                 'generarEfectividadEstrategias' => $this->Html->link('Efectividad de Estrategias de Gestion', '/pagos/generarEfectividadEstrategias'),
-                                'generarscoringDeudores' => $this->Html->link('Scoring de Deudores', '/pagos/generarscoringDeudores'),
+                                'generarScoringDeudores' => $this->Html->link('Scoring de Deudores', '/pagos/generarScoringDeudores'),
                                 'generarInformeDeRecupero' => $this->Html->link('Indice de recupero', '/pagos/generarInformeDeRecupero'),
                             );
 $options['Users']['titulo'] = 'Usuarios';

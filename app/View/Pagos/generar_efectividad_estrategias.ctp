@@ -44,10 +44,11 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
                             url: 'generarEfectividadEstrategias',
                             cache:false,
                             beforeSend: function() {
-                                $('#informe').html('%s');
+                                $('#preload').html('%s');
                             }
                           })
                             .done(function(data) {
+                                $('.preload').remove();
                                 $('#informe').html(data);                                                    
                                 $('#informe').dialog({
                                     modal: true,
@@ -66,7 +67,7 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
                                     },
                                     buttons: {                            
                                         'Exportar PDF': function() {
-                                            //$(location).attr('href', 'presupuestar/' + $(\"#estrategias_id\").val() + '/' + $(\"#cartera_seleccionada\").val() + '.pdf');
+                                            $(location).attr('href', 'generarEfectividadEstrategias/' + '/' + $(\"#cartera_seleccionada\").val() + '.pdf');
                                         },
                                         Cerrar: function() {
                                             $(this).dialog(\"close\");
@@ -79,7 +80,7 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
             });
           ", 
                     $data,
-                    '<img src="/devel/satod/img/load.gif" />')
+                    '<img class="preload" src="/devel/satod/img/load.gif" />')
     );
 
 //$this->Js->get('#comboCartera')->event(
@@ -94,6 +95,47 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
 //                )
 //        )
 //);
+
+$this->Js->get('#comboCartera')->event(
+      'change', '$("#cartera_seleccionada").val($("#comboCartera").val());'
+    );
+
+$this->Js->get('#comboClientes')->event(
+      'change', sprintf("            
+            
+            $.ajax({
+                dataType: 'json',
+                async:true,
+                url: 'getCarterasAsignadas/' + $(this).val(),
+                cache:false,
+                beforeSend: function() {
+                                $(\"label[for='\"+$('#comboCartera').attr('id')+\"']\").append('%s');
+                            }
+              })
+            .done(function(options) {
+                $('.cargando').remove();
+                
+                // Limpio el combo de carteras y agrego los valores que le corresponden
+                $('#comboCartera').children().remove();
+
+                if (options != null) {
+                    $(\"label[for='\"+$('#comboCartera').attr('id')+\"']\").css('color', '#000000');
+                    $.each(options, function(index, value) { 
+                       $('#comboCartera').append( new Option(value.nombre,value.id) );
+                    });	                    
+                } else {
+                    $('#comboCartera').append( new Option('Elegi la Cartera','') );
+                }
+                $('#comboCartera').trigger('chosen:updated');
+
+
+            });
+        ", 
+              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              )
+    );
+
+
 
 ?>
 
@@ -115,17 +157,26 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
                                                         'label' => 'Cartera',
                                                         'multiple' => true,
                                                         'div' => 'required',
+                                                        'options' => array(),
                                                     )
                                 );
         
+        echo $this->Form->input('cartera_seleccionada', array(  
+                                                                'type' => 'hidden', 
+                                                                'id' => 'cartera_seleccionada', 
+                                                                'label' => false,
+                                                                )
+                                );
         
 //        echo $this->Html->div('indicadores', false, array('id' => 'indicadores'));
+        
         echo $this->Html->div('informe', false, array('id' => 'informe'));
         
         ?>
     </fieldset>
     <?php 
         echo $this->Form->end(__('Emitir Informe')); 
+        echo $this->Html->div('preload', false, array('id' => 'preload'));
         echo $this->Js->writeBuffer();
     ?>
 </div>

@@ -30,10 +30,10 @@ if (isset($datos)) {
     $html[] = '<legend id="titulo"> Informe de Analisis de Cartera de Deudores</legend>';
 
     $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Fecha: %s', date("d-m-Y")));
-    $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Empresa Cliente: %s', $datos[0]['Cliente']['nombre']));
-    $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Cartera: %s', $datos[0]['Cartera']['nombre']));
+    $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Empresa Cliente: %s', $datos['Cliente']['nombre']));
+    $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Cartera: %s', $datos['Cartera']['nombre']));
 
-    $html[] = $this->Html->div('encabezado', implode("\n", $htmlEncabezado));
+    $html[] = $this->Html->div('encabezado', implode("\n", $htmlEncabezado), array('id' => 'encabezado'));
 
     /*
      * Muestro los indicadores de recupero
@@ -44,13 +44,16 @@ if (isset($datos)) {
     $htmlIndicadoresParticulares = array();
     $htmlIndicadoresParticulares[] = $this->Html->tag('h2', 'Indicadores particulares de recupero');
 
-    if (!empty($datos[0]['Indicadore'])) {
-        foreach ($datos[0]['Indicadore'] as $indicador) {
+    if (!empty($datos['Indicadore'])) {
+        foreach ($datos['Indicadore'] as $indicador) {
             $tablaHtmlIndicadoresParticularesGrupo = array();
             if ($indicador['tipo'] == 'P') {
                 if ($indicador['calculo'] != 'group') {
                     $htmlIndicadoresParticulares[] = $this->Html->div('indicadorResultado', sprintf('%s : %s', $indicador['etiqueta'], nro($indicador['IndicadoresValore'][0]['valor_ponderado'])));
                 } else {
+                    
+                    $htmlIndicadoresParticularesGrupo[] = $this->Html->tag('div', $indicador['etiqueta'], array('class' => 'indicadorResultado'));
+                                        
                     // Muestro la grafica
                     $graficaIndicadorParticular = null;
                     $graficaIndicadorParticular['options']['title'] = $indicador['etiqueta'];
@@ -82,15 +85,15 @@ if (isset($datos)) {
                     foreach ($indicador['IndicadoresValore'] as $valores) {
                         $tablaHtmlIndicadoresParticularesGrupo[] = $this->Html->tableCells(array(array(
                                 $valores['valor'],
-                                number_format($valores['valor_ponderado'], 2, ',', '.'),
-                                sprintf('%s %%', number_format((($valores['valor_ponderado'] / $totalDeuda) * 100), 2, ',', '.')),
-                                number_format((($valores['valor_ponderado'] * $datos[0]['Cartera']['comision']) / 100), 2, ',', '.'),
+                                round($valores['valor_ponderado'], 2),
+                                sprintf('%s', round((($valores['valor_ponderado'] / $totalDeuda) * 100), 2)),
+                                round((($valores['valor_ponderado'] * $datos['Cartera']['comision']) / 100), 2),
                         )));
                         $incidencia[] = (($valores['valor_ponderado'] / $totalDeuda) * 100);
-                        $comision[] = (($valores['valor_ponderado'] * $datos[0]['Cartera']['comision']) / 100);
+                        $comision[] = (($valores['valor_ponderado'] * $datos['Cartera']['comision']) / 100);
                         $graficaIndicadorParticular['items'][] = array(
                                                                         sprintf("'%s'", $valores['valor']), 
-                                                                        $valores['valor_ponderado']
+                                                                        round($valores['valor_ponderado'], 2)
                                                                         );
                     }
                     $tablaHtmlIndicadoresParticularesGrupo[] = $this->Html->tag('tfoot', $this->Html->tableCells(array(array(
@@ -130,7 +133,7 @@ if (isset($datos)) {
         /*
          * Muestro los costos de aplicar las estrategias seleccionadas
          */
-        $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion');
+        $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion', array('id' => 'informeAnalizarCostos'));
 
         $countCostoEstrategia = 0;
         foreach ($costosEstrategias as $estrategia) {
@@ -142,7 +145,10 @@ if (isset($datos)) {
             )));
             $graficaCostoEstrategia[$countCostoEstrategia]['options']['title'] = ucwords($estrategia['Estrategia']['nombre']);
 
-            foreach ($estrategia['Costo'] as $costo) {
+            $htmlEstrategia[] = $this->Html->tag('div', sprintf('Estrategia: %s', $estrategia['Estrategia']['nombre']), array('class' => 'indicadorResultado'));
+            
+            foreach ($estrategia['Costo'] as $costo) {                
+                
                 $tablaEstrategia[] = $this->Html->tableCells(array(array(
                         $costo['nombre'],
                         nro(($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador'])),
@@ -164,7 +170,8 @@ if (isset($datos)) {
                             'TOTAL',
                             nro($CostoEstrategia),
             ))));
-
+                                                        
+                    
             $htmlEstrategia[] = $this->Html->tag('table', implode("\n", $tablaEstrategia), array('class' => 'tablaInforme'));
 
             $graficaCostoEstrategia[$countCostoEstrategia]['divContenedor'] = sprintf('grafica_%s', strtolower(str_replace(' ', '_', $estrategia['Estrategia']['nombre'])));
@@ -174,7 +181,7 @@ if (isset($datos)) {
             $htmlEstrategia[] = $this->Googlechart->paint($graficaCostoEstrategia[$countCostoEstrategia]);        
             $htmlEstrategia[] = $this->Html->tag(
                     'div', 
-                    sprintf('Rentabilidad de aplicar estrategia: %s', nro((($totalDeuda * $datos[0]['Cartera']['comision']) / 100) - $CostoEstrategia)),
+                    sprintf('Rentabilidad de aplicar estrategia: %s', nro((($totalDeuda * $datos['Cartera']['comision']) / 100) - $CostoEstrategia)),
                     array('class' => 'rentabilidad')
             );
 

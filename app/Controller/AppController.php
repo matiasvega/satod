@@ -87,5 +87,9 @@ class AppController extends Controller {
     public $helpers = array(
                                 'Js' => array('Jquery'),
 //                                'Googlechart',
-                            );            
+                            );
+    
+    
+    
+    
 }

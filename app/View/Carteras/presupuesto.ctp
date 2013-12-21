@@ -76,6 +76,7 @@ if (isset($datos)) {
         $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion');
 
         $countCostoEstrategia = 0;
+        $costoTotal = array();            
         foreach ($costosEstrategias as $estrategia) {
             $CostoEstrategia = 0;
             $tablaEstrategia = array();
@@ -84,15 +85,17 @@ if (isset($datos)) {
                         "Costo",
             )));
             $graficaCostoEstrategia[$countCostoEstrategia]['options']['title'] = ucwords($estrategia['Estrategia']['nombre']);
-
+         
+            $htmlEstrategia[] = $this->Html->tag('div', sprintf('Estrategia: %s', $estrategia['Estrategia']['nombre']), array('class' => 'indicadorResultado'));
+            
             foreach ($estrategia['Costo'] as $costo) {
                 $tablaEstrategia[] = $this->Html->tableCells(array(array(
                         $costo['nombre'],
                         nro(($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador'])),
                 )));
-
+                
                 $CostoEstrategia += ($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador']);
-
+                
     //            $graficaCostoEstrategia[$countCostoEstrategia]['items'][$costo['nombre']] = ($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador']);
 
                 $graficaCostoEstrategia[$countCostoEstrategia]['items'][] = array(
@@ -102,7 +105,7 @@ if (isset($datos)) {
 
 
             }
-
+            $costoTotal[] = $CostoEstrategia;
             $tablaEstrategia[] = $this->Html->tag('tfoot', $this->Html->tableCells(array(array(
                             'TOTAL',
                             nro($CostoEstrategia),
@@ -118,7 +121,9 @@ if (isset($datos)) {
 
             $countCostoEstrategia++;
         }
-
+        
+        $htmlEstrategia[] = $this->Html->tag('div', sprintf('%s : %s', 'COSTO TOTAL', nro(array_sum($costoTotal))), array('class' => 'indicadorResultado'));
+        
         $html[] = $this->Html->div('contenedorIndicadores', implode("\n", $htmlEstrategia));        
     }
         $html[] = '</fieldset>';

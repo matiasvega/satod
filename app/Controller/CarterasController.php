@@ -23,6 +23,7 @@ class CarterasController extends AppController {
 
     public $helpers = array(
                         'Googlechart',
+//                        'PhpExcel'
                     );     
     
     /**
@@ -244,7 +245,7 @@ class CarterasController extends AppController {
         
 
         if ($idCarteraPDF) {
-            $datos = $this->Cartera->find('all', array('conditions' => array('Cartera.id' => $idCarteraPDF,
+            $datos = $this->Cartera->find('first', array('conditions' => array('Cartera.id' => $idCarteraPDF,
                 ),
                 'recursive' => 2)
             );
@@ -255,14 +256,53 @@ class CarterasController extends AppController {
             $this->pdfConfig = array(
                 'orientation' => 'portrait',
                 'download' => true,
-                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
+                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos['Cartera']['nombre']), str_replace(' ', '_', $datos['Cliente']['nombre'])
                 ),
             );
 
             $this->set(compact('datos', 'costosEstrategias'));
             $this->render('informe');
-        }
+        }               
+        
     }
+    
+    public function analizarToExcel($id_estrategias = false, $idCartera = false){
+        $this->layout = 'ajax';
+        $datos = $this->Cartera->find('first', array('conditions' => array( 
+                                                                                'Cartera.id' => $idCartera,
+                                                                            ),
+                                                     'recursive' => 2
+                                                    )
+            );
+
+        $costosEstrategias = ClassRegistry::init('Estrategia')->find('all', array('conditions' => array(
+                                                                'Estrategia.id' => explode(',', $id_estrategias)
+                                                                                                        )
+                                                                                 )
+        );
+        
+        $this->set(compact('datos', 'costosEstrategias'));
+        
+    }
+    
+    public function createChart($idCartera, $id_estrategias = false) {
+        $this->layout = 'ajax';
+        $datos = $this->Cartera->find('first', array('conditions' => array( 
+                                                                                'Cartera.id' => $idCartera,
+                                                                            ),
+                                                     'recursive' => 2
+                                                    )
+            );
+
+        $costosEstrategias = ClassRegistry::init('Estrategia')->find('all', array('conditions' => array(
+                                                                'Estrategia.id' => explode(',', $id_estrategias)
+                                                                                                        )
+                                                                                 )
+        );
+        
+        $this->set(compact('datos', 'costosEstrategias'));
+    }
+    
 
     public function informe() {
         //pr($datos);
@@ -320,7 +360,7 @@ class CarterasController extends AppController {
                 
         
         if ($idCarteraPDF) {
-            $datos = $this->Cartera->find('all', array('conditions' => array('Cartera.id' => $idCarteraPDF,
+            $datos = $this->Cartera->find('first', array('conditions' => array('Cartera.id' => $idCarteraPDF,
                 ),
                 'recursive' => 2)
             );
@@ -331,7 +371,7 @@ class CarterasController extends AppController {
             $this->pdfConfig = array(
                 'orientation' => 'portrait',
                 'download' => true,
-                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
+                'filename' => sprintf('Cartera_%s_%s.pdf', str_replace(' ', '_', $datos['Cartera']['nombre']), str_replace(' ', '_', $datos['Cliente']['nombre'])
                 ),
             );
 
@@ -402,6 +442,23 @@ class CarterasController extends AppController {
     public function indexPlanificaciones() {
         return $this->redirect('/planificaciones/');
     }
+    
+    public function getCarteras($idCliente) {        
+        if (!empty($idCliente)) {
+            $carteras = ClassRegistry::init('Cartera')->find('all', array(
+                                                                        'conditions' => array(
+                                                                                'Cartera.clientes_id' => $idCliente,
+                                                                                            ),
+                                                                         'recursive' => 0,
+                                                                            )
+                                                            );                    
+    //                dd($carteras);
+    //                dd(Set::extract('{n}.Cartera', $carteras));
+            $carteras = json_encode(Set::extract('{n}.Cartera', $carteras));
+            $this->set('carteras', $carteras);
+        }        
+    }
+    
     
     
 

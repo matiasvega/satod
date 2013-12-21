@@ -174,6 +174,5 @@ function getMes($mes) {
 }
 
 function nro($nro) {
-    return number_format($nro, 2, ',', '.');
+    return number_format(round($nro, 2), 2, ',', '.');
 }
-

@@ -11,7 +11,7 @@ echo sprintf("<script type=\"text/javascript\">
                 width: \"30%%\",
                 styling: 'jqueryui',
                 history: false,
-                sticker: false,
+                sticker: true,
                 delay: 2000,
                 animation: 'show'
     //            stack: show_stack_bar_bottom,

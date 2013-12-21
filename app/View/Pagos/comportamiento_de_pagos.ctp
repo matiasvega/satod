@@ -5,12 +5,14 @@ echo "
 
         $(document).ready(function() {
             $('.tablaInforme').dataTable({
+                'bJQueryUI': true,
                 'bPaginate': true,
-                'bLengthChange': false,
-                'bFilter': false,
+                'bLengthChange': true,
+                'bFilter': true,
                 'bSort': true,
-                'bInfo': false,
+//                'bInfo': true,
                 'bAutoWidth': false,
+//                'sPaginationType': 'full_numbers',
                 'oLanguage': {
                                 'sUrl': '../de_ES.txt'
                              }

@@ -29,8 +29,8 @@ if (isset($datos)) {
         $html[] = '<legend> Presupuesto de Gestión de Cartera de Deudores</legend>';
                 
         $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Fecha: %s', date("d-m-Y")));
-        $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Empresa Cliente: %s', $datos[0]['Cliente']['nombre']));
-        $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Cartera: %s', $datos[0]['Cartera']['nombre']));
+        $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Empresa Cliente: %s', $datos['Cliente']['nombre']));
+        $htmlEncabezado[] = $this->Html->tag('h1', sprintf('Cartera: %s', $datos['Cartera']['nombre']));
 
         $html[] = $this->Html->div('encabezado', implode("\n", $htmlEncabezado));
         
@@ -38,11 +38,11 @@ if (isset($datos)) {
         $htmlIndicadoresGenerales = array();
         $htmlIndicadoresParticulares = array();                        
         
-        if (!empty($datos[0]['Indicadore'])) {
+        if (!empty($datos['Indicadore'])) {
             $htmlIndicadoresGenerales[] = $this->Html->tag('h2', 'Indicadores generales de recupero');        
             $htmlIndicadoresParticulares[] = $this->Html->tag('h2', 'Indicadores particulares de recupero');
             
-            foreach ($datos[0]['Indicadore'] as $indicador) {
+            foreach ($datos['Indicadore'] as $indicador) {
                 if ($indicador['tipo'] == 'P') {
                     if ($indicador['calculo'] != 'group') {
                         $htmlIndicadoresParticulares[] = $this->Html->div('indicadorResultado', sprintf('%s : %s', $indicador['etiqueta'], number_format($indicador['IndicadoresValore'][0]['valor_ponderado'], 2, ',', '.')));
@@ -76,6 +76,7 @@ if (isset($datos)) {
         $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion');
 
         $countCostoEstrategia = 0;
+        $costoTotal = array();            
         foreach ($costosEstrategias as $estrategia) {
             $CostoEstrategia = 0;
             $tablaEstrategia = array();
@@ -83,17 +84,20 @@ if (isset($datos)) {
                         ucwords($estrategia['Estrategia']['nombre']),
                         "Costo",
             )));
+            
+            $htmlEstrategia[] = $this->Html->tag('div', sprintf('Estrategia: %s', $estrategia['Estrategia']['nombre']), array('class' => 'indicadorResultado'));
+            
             $graficaCostoEstrategia[$countCostoEstrategia]['options']['title'] = ucwords($estrategia['Estrategia']['nombre']);
-            $graficaCostoEstrategia[$countCostoEstrategia]['options']['width'] = 1100;
 
+            
             foreach ($estrategia['Costo'] as $costo) {
                 $tablaEstrategia[] = $this->Html->tableCells(array(array(
                         $costo['nombre'],
                         nro(($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador'])),
                 )));
-
+                
                 $CostoEstrategia += ($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador']);
-
+                
     //            $graficaCostoEstrategia[$countCostoEstrategia]['items'][$costo['nombre']] = ($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador']);
 
                 $graficaCostoEstrategia[$countCostoEstrategia]['items'][] = array(
@@ -103,7 +107,7 @@ if (isset($datos)) {
 
 
             }
-
+            $costoTotal[] = $CostoEstrategia;
             $tablaEstrategia[] = $this->Html->tag('tfoot', $this->Html->tableCells(array(array(
                             'TOTAL',
                             nro($CostoEstrategia),
@@ -119,7 +123,9 @@ if (isset($datos)) {
 
             $countCostoEstrategia++;
         }
-
+        
+        $htmlEstrategia[] = $this->Html->tag('div', sprintf('%s : %s', 'COSTO TOTAL', nro(array_sum($costoTotal))), array('class' => 'indicadorResultado'));
+        
         $html[] = $this->Html->div('contenedorIndicadores', implode("\n", $htmlEstrategia));        
     }
         $html[] = '</fieldset>';

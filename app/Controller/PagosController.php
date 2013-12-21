@@ -124,7 +124,7 @@ class PagosController extends AppController {
 	}
         
         
-        public function generarInformeDePagos() {
+        public function generarInformeDePagos($idCarteraPDF = false) {
             if ($this->request->is('post')) {
                 // Traigo los datos de la cartera, el cliente, los pagos que tenga, la planificacion y los indicadores
                 $datos = $this->Pago->Cartera->find('all', array(
@@ -139,7 +139,6 @@ class PagosController extends AppController {
                     $this->Session->setFlash(__('No se encontraron datos de pagos registrados para la cartera seleccionada.'), 'flash_error');
                 }
                                 
-
                 $planificaciones = Set::classicExtract($datos, '{n}.Planificacione.{n}.id');
 //                dd($planificaciones);
                 // Busco cada detalle de planificacion con su correspondiente estrategia.
@@ -187,13 +186,64 @@ class PagosController extends AppController {
             }
             
             
+            if ($idCarteraPDF) {
+                    
+                    if (strpos($idCarteraPDF, ',') !== false) {
+                        $idCarteraPDF = explode(',', $idCarteraPDF);
+                    }
+                    
+                    // Traigo los datos de la cartera, el cliente, los pagos que tenga, la planificacion y los indicadores
+                    $datos = $this->Pago->Cartera->find('all', array(
+                        'conditions' => array(
+                            'Cartera.id' => $idCarteraPDF,
+                        ),
+                        'recursive' => 2
+                            )
+                    );
+    //                dd($datos);                
+                    if (!key_exists('Pago', $datos[0])) {
+                        $this->Session->setFlash(__('No se encontraron datos de pagos registrados para la cartera seleccionada.'), 'flash_error');
+                    }
+
+
+                    $planificaciones = Set::classicExtract($datos, '{n}.Planificacione.{n}.id');
+    //                dd($planificaciones);
+                    // Busco cada detalle de planificacion con su correspondiente estrategia.
+                    $detallesPlanificaciones = ClassRegistry::init('DetallesPlanificacione')->find('all', array(
+                        'conditions' => array(
+                            'DetallesPlanificacione.planificaciones_id' => $planificaciones[0],
+                                             ),
+                        'recursive' => 1
+                            )
+                    );
+    //                dd($detallesPlanificaciones);
+                    $indicadoresSeleccionados = Set::extract($detallesPlanificaciones, '{n}.DetallesPlanificacione.carteras_indicadores_id');
+
+                    $indicadores = ClassRegistry::init('IndicadoresValore')->find('list', array(
+                        'fields' => array('IndicadoresValore.id', 'IndicadoresValore.valor'),
+                        'conditions' => array('IndicadoresValore.id' => $indicadoresSeleccionados),
+                        'recursive' => 0,
+                    ));       
+
+
+                    $this->pdfConfig = array(
+                        'orientation' => 'portrait',
+                        'download' => true,
+                        'filename' => sprintf('Comportamiento_de_pagos_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
+                        ),
+                    );
+
+                    $this->set(compact('datos', 'detallesPlanificaciones', 'indicadores'));
+                    $this->render('comportamientoDePagos');
+            }
+                                                
         }
         
         public function comportamientoDePagos() {
             
         }
                 
-        public function generarInformeDeRecupero() {
+        public function generarInformeDeRecupero($idCarteraPDF = false) {
             if ($this->request->is('post')) {
                 
                 $datos = $this->Pago->Cartera->find('all', array(
@@ -258,7 +308,69 @@ class PagosController extends AppController {
 //            } 
             else {
                 $this->set(compact('clientes', 'carteras'/*, 'estrategias'*/));
-            }                                                
+            } 
+            
+            
+            
+            if ($idCarteraPDF) {
+                    
+                    if (strpos($idCarteraPDF, ',') !== false) {
+                        $idCarteraPDF = explode(',', $idCarteraPDF);
+                    }
+                    
+                    $datos = $this->Pago->Cartera->find('all', array(
+                         'conditions' => array(
+                             'Cartera.id' => $idCarteraPDF,
+                         ),
+                         'recursive' => 2
+                             )
+                     );
+
+                     foreach($datos as $dato) {
+                         if (!key_exists('Pago', $dato)) {
+                             $this->Session->setFlash(__('No se encontraron datos de pagos registrados para la/s cartera/s seleccionada/s.'), 'flash_error');
+                         }    
+                     }                                
+
+                     $carteras = $this->Pago->Cartera->find('list', array(
+                         'conditions' => array(
+                             'Cartera.id' => $idCarteraPDF,
+                         )
+                     ));
+
+                     $planificaciones = Set::classicExtract($datos, '{n}.Planificacione.{n}.id');                             
+     //                dd($planificaciones);                
+                     $detallesPlanificaciones = ClassRegistry::init('DetallesPlanificacione')->find('all', array(
+                         'conditions' => array(
+                                                     'DetallesPlanificacione.planificaciones_id' => $planificaciones[0],
+                                              ),
+                         'recursive' => 1
+                             )
+                     );                
+
+                     $indicadoresSeleccionados = Set::extract($detallesPlanificaciones, '{n}.DetallesPlanificacione.carteras_indicadores_id');
+                     $indicadores = ClassRegistry::init('IndicadoresValore')->find('list', array(
+                         'fields' => array('IndicadoresValore.id', 'IndicadoresValore.valor'),
+                         'conditions' => array('IndicadoresValore.id' => $indicadoresSeleccionados),
+                         'recursive' => 0,
+                     ));                              
+
+                    $this->pdfConfig = array(
+                        'orientation' => 'portrait',
+                        'download' => true,
+                        'filename' => sprintf('Indice_de_recupero_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
+                        ),
+                    );
+
+                     $this->set(compact('datos', 'detallesPlanificaciones', 'indicadores', 'carteras'));
+     //                $this->set(compact('datos'));
+                     $this->render('indiceDeRecupero');
+            }
+            
+            
+            
+            
+            
                         
         }
         
@@ -266,7 +378,7 @@ class PagosController extends AppController {
 //            dd('xxxxxxxxxxxxxxxxxxxxxxxxx');
         }
         
-        public function generarEfectividadEstrategias() {
+        public function generarEfectividadEstrategias($idCarteraPDF = false) {
             if ($this->request->is('post')) {
                 
                 $datos = $this->Pago->Cartera->find('all', array(
@@ -277,12 +389,11 @@ class PagosController extends AppController {
                         )
                 );
                 
-//                dd($datos);
                 foreach($datos as $dato) {
                     if (!key_exists('Pago', $dato)) {
                         $this->Session->setFlash(__('No se encontraron datos de pagos registrados para la/s cartera/s seleccionada/s.'), 'flash_error');
-                    }    
-                }                                
+                    }
+                }
                 
                 $carteras = $this->Pago->Cartera->find('list', array(
                     'conditions' => array(
@@ -291,7 +402,7 @@ class PagosController extends AppController {
                 ));
                 
                 $planificaciones = Set::classicExtract($datos, '{n}.Planificacione.{n}.id');                             
-//                dd($planificaciones);                
+
                 $detallesPlanificaciones = ClassRegistry::init('DetallesPlanificacione')->find('all', array(
                     'conditions' => array(
                                                 'DetallesPlanificacione.planificaciones_id' => $planificaciones[0],
@@ -336,8 +447,144 @@ class PagosController extends AppController {
             } 
             else {
                 $this->set(compact('clientes', 'carteras'/*, 'estrategias'*/));
-            }                                                
+            }
+
+            
+            if ($idCarteraPDF) {
+                    
+                    if (strpos($idCarteraPDF, ',') !== false) {
+                        $idCarteraPDF = explode(',', $idCarteraPDF);
+                    }
+                    
+                    $datos = $this->Pago->Cartera->find('all', array(
+                            'conditions' => array(
+                                'Cartera.id' => $idCarteraPDF,
+                            ),
+                            'recursive' => 2
+                                )
+                        );
+                    
+                    
+                    foreach($datos as $dato) {
+                        if (!key_exists('Pago', $dato)) {
+                            $this->Session->setFlash(__('No se encontraron datos de pagos registrados para la/s cartera/s seleccionada/s.'), 'flash_error');
+                        }
+                    }
+
+                    $carteras = $this->Pago->Cartera->find('list', array(
+                        'conditions' => array(
+                            'Cartera.id' => $idCarteraPDF,
+                        )
+                    ));
+
+                    $planificaciones = Set::classicExtract($datos, '{n}.Planificacione.{n}.id');                             
+
+                    $detallesPlanificaciones = ClassRegistry::init('DetallesPlanificacione')->find('all', array(
+                        'conditions' => array(
+                                                    'DetallesPlanificacione.planificaciones_id' => $planificaciones[0],
+                                             ),
+                        'recursive' => 1
+                            )
+                    );                
+
+                    $indicadoresSeleccionados = Set::extract($detallesPlanificaciones, '{n}.DetallesPlanificacione.carteras_indicadores_id');
+                    $indicadores = ClassRegistry::init('IndicadoresValore')->find('all', array(
+                        'fields' => array('IndicadoresValore.id', 'IndicadoresValore.valor', 'IndicadoresValore.valor_ponderado'),
+    //                    'fields' => array('IndicadoresValore.id', 'IndicadoresValore.valor'),
+                        'conditions' => array('IndicadoresValore.id' => $indicadoresSeleccionados),
+                        'recursive' => 0,
+                    ));
+
+                    $indicadoresAux = null;
+                    foreach ($indicadores as $indicador) {
+                        $indicadoresAux[$indicador['IndicadoresValore']['id']] = $indicador;
+                    }
+                    $indicadores = $indicadoresAux;
+
+                    $this->pdfConfig = array(
+                        'orientation' => 'portrait',
+                        'download' => true,
+                        'filename' => sprintf('Efectividad_de_estrategias_%s_%s.pdf', str_replace(' ', '_', $datos[0]['Cartera']['nombre']), str_replace(' ', '_', $datos[0]['Cliente']['nombre'])
+                        ),
+                    );
+
+                    $this->set(compact('datos', 'detallesPlanificaciones', 'indicadores', 'carteras'));                
+    //                $this->set(compact('datos'));
+                    $this->render('efectividadDeEstrategias');
+            }
                         
+        }
+        
+        
+        public function generarScoringDeudores($idCarteraPDF = false) {
+            if ($this->request->is('post')) {
+//                d('xxx');                
+//                dd($this->request->data);
+                
+                $datos = $this->Pago->Cartera->find('first', array(
+                    'conditions' => array(
+                        'Cartera.id' => $this->request->data['Pago']['carteras_id'],
+                    ),
+                    'recursive' => 2
+                        )
+                );
+                
+                $this->set('datos', $datos);
+                                
+                $this->render('scoringDeDeudores');
+            }
+            
+            
+            $clientes = $this->Pago->Cartera->Cliente->find('list');
+            $carteras = $this->Pago->Cartera->find('list', array(
+                            'conditions' => array(
+                                'Cartera.estado' => 'A',
+                            ),
+                        )
+                    );
+            
+            if (empty($clientes)){
+                $this->Session->setFlash(__('No se encontraron datos de clientes registrados.'), 'flash_error');
+                return $this->redirect(array('action' => 'index'));
+            } else if (empty($carteras)) {
+                $this->Session->setFlash(__('No se encontraron datos de carteras de deudores registrados en estado "Asignada".'), 'flash_error');
+                return $this->redirect(array('action' => 'index'));
+            } 
+            else {
+                $this->set(compact('clientes', 'carteras'/*, 'estrategias'*/));
+            }  
+            
+            
+            
+            if ($idCarteraPDF) {
+                    
+                    if (strpos($idCarteraPDF, ',') !== false) {
+                        $idCarteraPDF = explode(',', $idCarteraPDF);
+                    }
+                    
+                    $datos = $this->Pago->Cartera->find('first', array(
+                        'conditions' => array(
+                            'Cartera.id' => $idCarteraPDF,
+                        ),
+                        'recursive' => 2
+                            )
+                    );                    
+                                        
+                    $this->pdfConfig = array(
+                        'orientation' => 'portrait',
+                        'download' => true,
+                        'filename' => sprintf('Scoring_de_deudores_%s_%s.pdf', str_replace(' ', '_', $datos['Cartera']['nombre']), str_replace(' ', '_', $datos['Cliente']['nombre'])
+                        ),
+                    );
+
+                    $this->set('datos', $datos);
+
+                    $this->render('scoringDeDeudores');
+            }
+            
+            
+            
+
         }
         
         
@@ -381,5 +628,24 @@ class PagosController extends AppController {
             
             //$this->render('datos');
         }
+                       
+        
+        public function getCarterasAsignadas($idCliente) {        
+            if (!empty($idCliente)) {
+                $carteras = ClassRegistry::init('Cartera')->find('all', array(
+                                                                            'conditions' => array(
+                                                                                    'Cartera.clientes_id' => $idCliente,
+                                                                                    'Cartera.estado' => 'A'
+                                                                                                ),
+                                                                             'recursive' => 0,
+                                                                                )
+                                                                );                    
+//                dd($carteras);
+//                dd(Set::extract('{n}.Cartera', $carteras));
+                $carteras = json_encode(Set::extract('{n}.Cartera', $carteras));
+                $this->set('carteras', $carteras);
+            }        
+        }     
+        
                         
 }      

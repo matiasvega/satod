@@ -125,10 +125,11 @@ $this->Js->get('#PlanificacioneAddForm')->event(
                     url: 'add',
                     cache:false,
                     beforeSend: function() {
-                        $('#informe').html('%s');
+                        $('#preload').html('%s');
                     }
                   })
                     .done(function(data) {
+                        $('.preload').remove();
                         $('#informe').html(data);
                         $('#informe').dialog({
                             modal: true,
@@ -296,6 +297,41 @@ $this->Js->get('#ver_analisis_cartera')->event(
            )
 );
 
+$this->Js->get('#comboCliente')->event(
+      'change', sprintf("            
+            
+            $.ajax({
+                dataType: 'json',
+                async:true,
+                url: '%s/devel/satod/carteras/getCarteras/' + $(this).val(),
+                cache:false,
+                beforeSend: function() {
+                                $(\"label[for='\"+$('#comboCartera').attr('id')+\"']\").append('%s');
+                            }
+              })
+            .done(function(options) {
+                $('.cargando').remove();
+                
+                // Limpio el combo de carteras y agrego los valores que le corresponden
+                $('#comboCartera').children().remove();
+
+                if (options != null) {
+                    $(\"label[for='\"+$('#comboCartera').attr('id')+\"']\").css('color', '#000000');
+                    $.each(options, function(index, value) { 
+                       $('#comboCartera').append( new Option(value.nombre,value.id) );
+                    });	                    
+                } else {
+                    $('#comboCartera').append( new Option('Elegi la Cartera','') );
+                }
+                $('#comboCartera').trigger('chosen:updated');
+
+
+            });
+        ", 
+              FULL_BASE_URL,
+              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              )
+    );
 
 
 ?>
@@ -307,7 +343,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
 <?php
     echo $this->Form->input('clientes_id', array(
                                                     'id' => 'comboCliente',
-                                                    'empty' => 'Seleccione',
+                                                    'empty' => 'Elegi el cliente',
                                                     'label' => 'Cliente',
                                                     'div' => 'required',
                                                     'class' => 'inputPlanificacion',
@@ -315,10 +351,11 @@ $this->Js->get('#ver_analisis_cartera')->event(
                             );
     echo $this->Form->input('carteras_id', array(
                                                     'id' => 'comboCartera',
-                                                    'empty' => 'Seleccione',
+                                                    'empty' => 'Elegi la cartera',
                                                     'label' => 'Cartera',
                                                     'div' => 'required',
                                                     'class' => 'inputPlanificacion',
+                                                    'options' => array(),
                                                 )
                             );
     echo $this->Form->input('fecha_inicio', array(
@@ -326,6 +363,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
                                                     'type' => 'text',
                                                     'div' => 'required',
                                                     'class' => 'inputPlanificacion',
+                                                    'placeholder' => 'Selecciona la fecha de inicio de la gestion',
                                                     )
                             );
     echo $this->Form->input('fecha_fin', array(
@@ -333,6 +371,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
                                                 'type' => 'text',
                                                 'div' => 'required',
                                                 'class' => 'inputPlanificacion',
+                                                'placeholder' => 'Selecciona la fecha de fin de la gestion',
                                                 )
                             );
 
@@ -346,7 +385,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
     echo $this->Html->div('indicadores', false, array('id' => 'indicadores'));
     echo $this->Html->div('informe', false, array('id' => 'informe'));
     echo $this->Html->div('analisis', false, array('id' => 'analisis'));
-
+    echo $this->Html->div('preload', false, array('id' => 'preload'));
     echo $this->Js->writeBuffer();
 ?>
     </fieldset>

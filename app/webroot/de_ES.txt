@@ -2,7 +2,7 @@
 	"sProcessing": "Buscando datos...",
 	"sLengthMenu": "_MENU_ registros",
 	"sZeroRecords": "No se encontraron datos.",
-	"sInfo": "_START_ bis _END_ von _TOTAL_ Einträgen",
+	"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
 	"sInfoEmpty": "0 bis 0 von 0 Einträgen",
 	"sInfoFiltered": "(gefiltert von _MAX_  Einträgen)",
 	"sInfoPostFix": "",

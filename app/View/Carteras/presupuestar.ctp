@@ -51,10 +51,11 @@ $this->Js->get('#CarteraPresupuestarForm')->event(
                                                 url: 'presupuestar',
                                                 cache:false,
                                                 beforeSend: function() {
-                                                    $('#presupuesto').html('%s');
+                                                    $('#preload').html('%s');
                                                 }
                                               })
                                                 .done(function(data) {
+                                                    $('.preload').remove();
                                                     $('#presupuesto').html(data);                                                    
                                                     $('#presupuesto').dialog({
                                                         modal: true,
@@ -94,6 +95,43 @@ $this->Js->get('#comboCarteras')->event(
       'change', '$("#cartera_seleccionada").val($("#comboCarteras").val());'
     );
 
+$this->Js->get('#comboClientes')->event(
+      'change', sprintf("            
+            
+            $.ajax({
+                dataType: 'json',
+                async:true,
+                url: 'getCarteras/' + $(this).val(),
+                cache:false,
+                beforeSend: function() {
+                                $(\"label[for='\"+$('#comboCarteras').attr('id')+\"']\").append('%s');
+                            }
+              })
+            .done(function(options) {
+                $('.cargando').remove();
+                
+                // Limpio el combo de carteras y agrego los valores que le corresponden
+                $('#comboCarteras').children().remove();
+
+                if (options != null) {
+                    $(\"label[for='\"+$('#comboCarteras').attr('id')+\"']\").css('color', '#000000');
+                    $.each(options, function(index, value) { 
+                       $('#comboCarteras').append( new Option(value.nombre,value.id) );
+                    });	                    
+                } else {
+                    $('#comboCarteras').append( new Option('Elegi la Cartera','') );
+                }
+                $('#comboCarteras').trigger('chosen:updated');
+
+
+            });
+        ", 
+              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              )
+    );
+
+
+
 ?>
 
 <div spellcheck="<none>" class="carteras form">
@@ -113,6 +151,7 @@ $this->Js->get('#comboCarteras')->event(
                                                         'empty' => 'Elegi la Cartera',
                                                         'label' => 'Cartera',
                                                         'div' => 'required',
+                                                        'options' => array(),
                                                     )
                                 );
 
@@ -138,6 +177,7 @@ $this->Js->get('#comboCarteras')->event(
     </fieldset>
     <?php 
         echo $this->Form->end(__('Generar Presupuesto')); 
+        echo $this->Html->div('preload', false, array('id' => 'preload'));
         echo $this->Js->writeBuffer();
     ?>
 </div>

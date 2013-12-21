@@ -23,7 +23,7 @@ echo "
     </script>
 ";
 
-if (isset($datos)) {    
+if (isset($datos)) {
     /*
      * Muestro el encabezado
      */
@@ -52,6 +52,9 @@ if (isset($datos)) {
                 if ($indicador['calculo'] != 'group') {
                     $htmlIndicadoresParticulares[] = $this->Html->div('indicadorResultado', sprintf('%s : %s', $indicador['etiqueta'], nro($indicador['IndicadoresValore'][0]['valor_ponderado'])));
                 } else {
+                    
+                    $htmlIndicadoresParticularesGrupo[] = $this->Html->tag('div', $indicador['etiqueta'], array('class' => 'indicadorResultado'));
+                                        
                     // Muestro la grafica
                     $graficaIndicadorParticular = null;
                     $graficaIndicadorParticular['options']['title'] = $indicador['etiqueta'];
@@ -131,7 +134,7 @@ if (isset($datos)) {
         /*
          * Muestro los costos de aplicar las estrategias seleccionadas
          */
-        $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion');
+        $html[] = $this->Html->tag('h2', 'Costos de gestionar asignacion', array('id' => 'informeAnalizarCostos'));
 
         $countCostoEstrategia = 0;
         foreach ($costosEstrategias as $estrategia) {
@@ -143,7 +146,10 @@ if (isset($datos)) {
             )));
             $graficaCostoEstrategia[$countCostoEstrategia]['options']['title'] = ucwords($estrategia['Estrategia']['nombre']);
 
-            foreach ($estrategia['Costo'] as $costo) {
+            $htmlEstrategia[] = $this->Html->tag('div', sprintf('Estrategia: %s', $estrategia['Estrategia']['nombre']), array('class' => 'indicadorResultado'));
+            
+            foreach ($estrategia['Costo'] as $costo) {                
+                
                 $tablaEstrategia[] = $this->Html->tableCells(array(array(
                         $costo['nombre'],
                         nro(($costo['tipo'] == 'F') ? $costo['valor'] : ($costo['valor'] * $costo['CostosEstrategia']['multiplicador'])),
@@ -165,7 +171,8 @@ if (isset($datos)) {
                             'TOTAL',
                             nro($CostoEstrategia),
             ))));
-
+                                                        
+                    
             $htmlEstrategia[] = $this->Html->tag('table', implode("\n", $tablaEstrategia), array('class' => 'tablaInforme'));
 
             $graficaCostoEstrategia[$countCostoEstrategia]['divContenedor'] = sprintf('grafica_%s', strtolower(str_replace(' ', '_', $estrategia['Estrategia']['nombre'])));
