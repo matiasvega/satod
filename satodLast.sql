@@ -2,6 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+DROP SCHEMA IF EXISTS `satod` ;
 CREATE SCHEMA IF NOT EXISTS `satod` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `satod` ;
 
@@ -59,7 +60,7 @@ DROP TABLE IF EXISTS `satod`.`estrategias` ;
 CREATE TABLE IF NOT EXISTS `satod`.`estrategias` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(45) NULL,
+  `descripcion` VARCHAR(255) NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`))
@@ -191,22 +192,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `satod`.`users`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `satod`.`users` ;
-
-CREATE TABLE IF NOT EXISTS `satod`.`users` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(50) NULL,
-  `password` VARCHAR(50) NULL,
-  `role` VARCHAR(20) NULL,
-  `created` DATETIME NULL DEFAULT NULL,
-  `modified` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `satod`.`planificaciones`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `satod`.`planificaciones` ;
@@ -223,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `satod`.`planificaciones` (
   CONSTRAINT `fk_planificaciones_carteras1`
     FOREIGN KEY (`carteras_id`)
     REFERENCES `satod`.`carteras` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -246,16 +231,10 @@ CREATE TABLE IF NOT EXISTS `satod`.`detalles_planificaciones` (
   `modified` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_detalles_planificaciones_estrategias1_idx` (`estrategias_id` ASC),
-  INDEX `fk_detalles_planificaciones_carteras_indicadores1_idx` (`carteras_indicadores_id` ASC),
   INDEX `fk_detalles_planificaciones_planificaciones1_idx` (`planificaciones_id` ASC),
   CONSTRAINT `fk_detalles_planificaciones_estrategias1`
     FOREIGN KEY (`estrategias_id`)
     REFERENCES `satod`.`estrategias` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_detalles_planificaciones_carteras_indicadores1`
-    FOREIGN KEY (`carteras_indicadores_id`)
-    REFERENCES `satod`.`carteras_indicadores` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalles_planificaciones_planificaciones1`
@@ -411,6 +390,116 @@ CREATE TABLE IF NOT EXISTS `satod`.`tmp_pagos` (
   `col48` TEXT NULL DEFAULT NULL,
   `col49` TEXT NULL DEFAULT NULL)
 ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `satod`.`groups`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `satod`.`groups` ;
+
+CREATE TABLE IF NOT EXISTS `satod`.`groups` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `satod`.`users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `satod`.`users` ;
+
+CREATE TABLE IF NOT EXISTS `satod`.`users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL,
+  `password` CHAR(40) NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `groups_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `username` (`username` ASC),
+  INDEX `fk_users_groups1_idx` (`groups_id` ASC),
+  CONSTRAINT `fk_users_groups1`
+    FOREIGN KEY (`groups_id`)
+    REFERENCES `satod`.`groups` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `satod`.`acos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `satod`.`acos` ;
+
+CREATE TABLE IF NOT EXISTS `satod`.`acos` (
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` INT(10) NULL DEFAULT NULL,
+  `model` VARCHAR(255) NULL DEFAULT NULL,
+  `foreign_key` INT(10) NULL DEFAULT NULL,
+  `alias` VARCHAR(255) NULL DEFAULT NULL,
+  `lft` INT(10) NULL DEFAULT NULL,
+  `rght` INT(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 178
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `satod`.`aros`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `satod`.`aros` ;
+
+CREATE TABLE IF NOT EXISTS `satod`.`aros` (
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` INT(10) NULL DEFAULT NULL,
+  `model` VARCHAR(255) NULL DEFAULT NULL,
+  `foreign_key` INT(10) NULL DEFAULT NULL,
+  `alias` VARCHAR(255) NULL DEFAULT NULL,
+  `lft` INT(10) NULL DEFAULT NULL,
+  `rght` INT(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 9
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `satod`.`aros_acos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `satod`.`aros_acos` ;
+
+CREATE TABLE IF NOT EXISTS `satod`.`aros_acos` (
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `_create` VARCHAR(2) NOT NULL DEFAULT '0',
+  `_read` VARCHAR(2) NOT NULL DEFAULT '0',
+  `_update` VARCHAR(2) NOT NULL DEFAULT '0',
+  `_delete` VARCHAR(2) NOT NULL DEFAULT '0',
+  `acos_id` INT(10) NOT NULL,
+  `aros_id` INT(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_aros_acos_acos1_idx` (`acos_id` ASC),
+  INDEX `fk_aros_acos_aros1_idx` (`aros_id` ASC),
+  CONSTRAINT `fk_aros_acos_acos1`
+    FOREIGN KEY (`acos_id`)
+    REFERENCES `satod`.`acos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_aros_acos_aros1`
+    FOREIGN KEY (`aros_id`)
+    REFERENCES `satod`.`aros` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 60
 DEFAULT CHARACTER SET = utf8;
 
 
