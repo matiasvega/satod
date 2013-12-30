@@ -42,7 +42,7 @@ if (!empty($datos)) {
             echo sprintf("
                 <script type='text/javascript'>
                     $('#informe').hide();
-                    $(location).attr('href', '%s/devel/satod/pagos/generarEfectividadEstrategias');
+                    $(location).attr('href', '%s/satod/pagos/generarEfectividadEstrategias');
                     $('#informe').dialog('destroy');
                     
                 </script>

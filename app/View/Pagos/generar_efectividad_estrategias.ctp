@@ -80,7 +80,7 @@ $this->Js->get('#PagoEfectividadEstrategiasForm')->event(
             });
           ", 
                     $data,
-                    '<img class="preload" src="/devel/satod/img/load.gif" />')
+                    '<img class="preload" src="../img/load.gif" />')
     );
 
 //$this->Js->get('#comboCartera')->event(
@@ -131,7 +131,7 @@ $this->Js->get('#comboClientes')->event(
 
             });
         ", 
-              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              '<img class="cargando" src="../img/cargandoinputs.gif" />'
               )
     );
 

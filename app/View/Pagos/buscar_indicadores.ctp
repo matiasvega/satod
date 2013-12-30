@@ -13,7 +13,7 @@ if (!empty($indicadores)) {
 } else {
     echo sprintf("
             <script type='text/javascript'>
-                $(location).attr('href', '%s/devel/satod/pagos/%s');
+                $(location).attr('href', '%s/satod/pagos/%s');
             </script>
         ", FULL_BASE_URL, $accion);
 }

@@ -29,7 +29,7 @@ if (isset($datos)) {
         echo sprintf("
             <script type='text/javascript'>
                 $('#informe').hide();
-                $(location).attr('href', '%s/devel/satod/pagos/generarInformeDePagos');
+                $(location).attr('href', '%s/satod/pagos/generarInformeDePagos');
                 $('#informe').dialog('destroy');
             </script>
         ", FULL_BASE_URL);

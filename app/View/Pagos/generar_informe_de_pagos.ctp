@@ -79,7 +79,7 @@ $this->Js->get('#PagoGenerarInformeDePagosForm')->event(
                                 });
                     ", 
                     $data,
-                    '<img src="/devel/satod/img/load.gif" />')      
+                    '<img src="../img/load.gif" />')      
     );
 
 //$this->Js->get('#comboCartera')->event(
@@ -131,7 +131,7 @@ $this->Js->get('#comboClientes')->event(
 
             });
         ", 
-              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              '<img class="cargando" src="../img/cargandoinputs.gif" />'
               )
     );
 
