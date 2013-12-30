@@ -82,7 +82,7 @@ $this->Js->get('#CarteraAnalizarForm')->event(
                                 });
                     ", 
                     $data,
-                    '<img src="/devel/satod/img/load.gif" />')
+                    '<img src="../img/load.gif" />')
     );
 
 $this->Js->get('#comboCarteras')->event(
