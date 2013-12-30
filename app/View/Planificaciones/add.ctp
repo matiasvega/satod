@@ -147,7 +147,7 @@ $this->Js->get('#PlanificacioneAddForm')->event(
                               duration: 1000,
                             },
                             close: function() {
-                                $(location).attr('href', '%s/devel/satod/planificaciones/');
+                                $(location).attr('href', '%s/satod/planificaciones/');
                             },
                             buttons: {                            
                                 Cerrar: function() {
@@ -158,7 +158,7 @@ $this->Js->get('#PlanificacioneAddForm')->event(
                 });
             }
         }  )
-        ", $data, '<img src="/devel/satod/img/load.gif" />', FULL_BASE_URL)
+        ", $data, '<img src="../img/load.gif" />', FULL_BASE_URL)
 );
 
 $this->Js->get('.inputPlanificacion')->event(
@@ -212,7 +212,7 @@ $this->Js->get('.inputPlanificacion')->event(
         }  )
         ", 
           $data, 
-          '<img src="/devel/satod/img/load.gif" />'
+          '<img src="../img/load.gif" />'
            )
 );
 
@@ -255,7 +255,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
                     type: 'POST',
                     data: %s,
                     async:true,
-                    url: '%s/devel/satod/carteras/analizar',
+                    url: '%s/satod/carteras/analizar',
                     cache:false,
                     beforeSend: function() {
                         $('#analisis').html('%s');
@@ -293,7 +293,7 @@ $this->Js->get('#ver_analisis_cartera')->event(
         ", 
           $data, 
           FULL_BASE_URL,
-          '<img src="/devel/satod/img/load.gif" />'
+          '<img src="../img/load.gif" />'
            )
 );
 
@@ -303,7 +303,7 @@ $this->Js->get('#comboCliente')->event(
             $.ajax({
                 dataType: 'json',
                 async:true,
-                url: '%s/devel/satod/carteras/getCarteras/' + $(this).val(),
+                url: '%s/satod/carteras/getCarteras/' + $(this).val(),
                 cache:false,
                 beforeSend: function() {
                                 $(\"label[for='\"+$('#comboCartera').attr('id')+\"']\").append('%s');
@@ -329,7 +329,7 @@ $this->Js->get('#comboCliente')->event(
             });
         ", 
               FULL_BASE_URL,
-              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              '<img class="cargando" src="../img/cargandoinputs.gif" />'
               )
     );
 
