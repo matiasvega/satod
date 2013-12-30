@@ -146,7 +146,7 @@ p {
 
 #header #himage {
     vertical-align: middle;
-    background: url('http://localhost/devel/satod/img/logo-vn-trans.png') no-repeat left;
+    background: url('../img/logo-vn-trans.png') no-repeat left;
     
     min-height: 144px;
 }

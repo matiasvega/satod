@@ -29967,3 +29967,47 @@ Request URL: /devel/satod/css/vline.gif
 Stack Trace:
 #0 /var/www/html/devel/satod/app/webroot/index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-12-21 19:50:57 Error: [CakeException] AclNode::node() - Couldn't find Aro node identified by "Array
+(
+    [Aro0.model] => User
+    [Aro0.foreign_key] => 
+)
+"
+Request URL: /devel/satod/carteras
+Stack Trace:
+#0 /var/www/html/devel/satod/lib/Cake/Model/Permission.php(90): AclNode->node(Array)
+#1 /var/www/html/devel/satod/lib/Cake/Controller/Component/Acl/DbAcl.php(74): Permission->check(Array, 'Carteras/add', '*')
+#2 /var/www/html/devel/satod/lib/Cake/Controller/Component/AclComponent.php(110): DbAcl->check(Array, 'Carteras/add', '*')
+#3 /var/www/html/devel/satod/app/Controller/AppController.php(77): AclComponent->check(Array, 'Carteras/add')
+#4 [internal function]: AppController->beforeFilter(Object(CakeEvent))
+#5 /var/www/html/devel/satod/lib/Cake/Event/CakeEventManager.php(248): call_user_func(Array, Object(CakeEvent))
+#6 /var/www/html/devel/satod/lib/Cake/Controller/Controller.php(674): CakeEventManager->dispatch(Object(CakeEvent))
+#7 /var/www/html/devel/satod/lib/Cake/Routing/Dispatcher.php(184): Controller->startupProcess()
+#8 /var/www/html/devel/satod/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(CarterasController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/html/devel/satod/app/webroot/index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2013-12-29 15:33:33 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+Exception Attributes: array (
+  'class' => 'Mysql',
+  'message' => 'SQLSTATE[HY000] [2002] Can\'t connect to local MySQL server through socket \'/var/lib/mysql/mysql.sock\' (2)',
+  'enabled' => true,
+)
+Request URL: /devel/satod/
+Stack Trace:
+#0 /var/www/html/devel/satod/lib/Cake/Model/Datasource/DboSource.php(262): Mysql->connect()
+#1 /var/www/html/devel/satod/lib/Cake/Model/ConnectionManager.php(107): DboSource->__construct(Array)
+#2 /var/www/html/devel/satod/lib/Cake/Model/Model.php(3225): ConnectionManager::getDataSource('default')
+#3 /var/www/html/devel/satod/lib/Cake/Model/Model.php(1107): Model->setDataSource('default')
+#4 /var/www/html/devel/satod/lib/Cake/Model/Model.php(3247): Model->setSource('users')
+#5 /var/www/html/devel/satod/lib/Cake/Model/Model.php(1318): Model->getDataSource()
+#6 /var/www/html/devel/satod/lib/Cake/View/Helper/FormHelper.php(199): Model->schema()
+#7 /var/www/html/devel/satod/lib/Cake/View/Helper/FormHelper.php(451): FormHelper->_introspectModel('User', 'fields')
+#8 /var/www/html/devel/satod/app/View/Users/login.ctp(8): FormHelper->create('User')
+#9 /var/www/html/devel/satod/lib/Cake/View/View.php(945): include('/var/www/html/d...')
+#10 /var/www/html/devel/satod/lib/Cake/View/View.php(907): View->_evaluate('/var/www/html/d...', Array)
+#11 /var/www/html/devel/satod/lib/Cake/View/View.php(471): View->_render('/var/www/html/d...')
+#12 /var/www/html/devel/satod/lib/Cake/Controller/Controller.php(952): View->render(NULL, NULL)
+#13 /var/www/html/devel/satod/lib/Cake/Routing/Dispatcher.php(194): Controller->render()
+#14 /var/www/html/devel/satod/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#15 /var/www/html/devel/satod/app/webroot/index.php(110): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#16 {main}

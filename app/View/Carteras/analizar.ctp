@@ -120,7 +120,7 @@ $this->Js->get('#comboClientes')->event(
 
             });
         ", 
-              '<img class="cargando" src="/devel/satod/img/cargandoinputs.gif" />'
+              '<img class="cargando" src="../img/cargandoinputs.gif" />'
               )
     );
 
