@@ -243,7 +243,7 @@ if (!empty($indicadores)) {
     echo sprintf("
             <script type='text/javascript'>
                 $(document).ready(function() {
-                    $(location).attr('href', '%s/devel/satod/planificaciones/add');
+                    $(location).attr('href', '%s/satod/planificaciones/add');
                 })
             </script>
         ", FULL_BASE_URL);
