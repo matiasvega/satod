@@ -37,7 +37,7 @@ if (!empty($datos)) {
             echo sprintf("
                 <script type='text/javascript'>
                     $('#informe').hide();
-                    $(location).attr('href', '%s/devel/satod/pagos/generarInformeDeRecupero');
+                    $(location).attr('href', '%s/satod/pagos/generarInformeDeRecupero');
                     $('#informe').dialog('destroy');
                 </script>
             ", FULL_BASE_URL);
