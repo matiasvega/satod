@@ -9,13 +9,13 @@ echo '
                 <script src="https://www.google.com/jsapi"></script>
                 
 
-<link rel="stylesheet" type="text/css" href="http://localhost/devel/satod/css/cake.generic.css" />
+<link rel="stylesheet" type="text/css" href="../css/cake.generic.css" />
 
         
         </head>
         <body>
         <div id="headerpdf">
-                <div id="logo"> <img src="http://localhost/devel/satod/img/logo-vn-trans.png" /> </div>
+                <div id="logo"> <img src="../img/logo-vn-trans.png" /> </div>
                 <div id="texto"> Business Process Outsourcing </div>
             </div>
             
